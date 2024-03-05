@@ -1,5 +1,5 @@
 function love.load()
-    local shaderCode = require("shader")
+    local shaderCode = love.filesystem.read("smoke_shader.frag")
     shader = love.graphics.newShader(shaderCode)
     shader:send("u_decay_rate", 0.002)
     love.graphics.setBackgroundColor({0, 0, 0, 0})

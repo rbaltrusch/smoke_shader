@@ -1,5 +1,3 @@
-return [[
-// newest GLSL syntax
 #pragma language glsl3
 
 uniform float u_decay_rate;
@@ -13,7 +11,7 @@ float random2(vec2 co){
 
 const float PHI = 1.61803398874989484820459;  // Golden Ratio   
 float random3(in vec2 xy, in float seed) {
-    return fract(tan(distance(xy *PHI, xy) * seed) * xy.x);
+    return fract(tan(distance(xy * PHI, xy) * seed) * xy.x);
 }
 
 float sum(vec4 rgb) {
@@ -21,10 +19,9 @@ float sum(vec4 rgb) {
 }
 
 vec4 effect(vec4 color, Image image, vec2 uvs, vec2 texture_coords) {
-    vec4 texture = Texel(image, uvs);
+    vec4 texture = texture2D(image, uvs);
     vec2 random_offset = vec2(random3(uvs, u_time) - 0.5, random3(uvs, u_time + 1));
-    vec4 below = Texel(image, uvs + 0.01 * random_offset);
+    vec4 below = texture2D(image, uvs + 0.01 * random_offset);
     vec4 tex = sum(below) > sum(texture) ? (below * u_colour_decay_rate) : texture;
     return vec4(tex.rgb - u_decay_rate,  texture.a);
 }
-]]
